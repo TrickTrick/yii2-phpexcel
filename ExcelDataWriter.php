@@ -1,13 +1,16 @@
 <?php
 
-namespace alexgx\phpexcel;
+namespace tricktrick\phpexcel;
 
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use yii\helpers\ArrayHelper;
 
-class ExcelDataWriter extends \yii\base\Object
+class ExcelDataWriter extends \yii\base\BaseObject
 {
     /**
-     * @var \PHPExcel_Worksheet
+     * @var Worksheet
      */
     public $sheet;
 
@@ -29,7 +32,7 @@ class ExcelDataWriter extends \yii\base\Object
     /**
      * @var string
      */
-    public $defaultDateFormat = \PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY;
+    public $defaultDateFormat = NumberFormat::FORMAT_DATE_DDMMYYYY;
 
     /**
      * @var int Default value is `1`
@@ -129,7 +132,7 @@ class ExcelDataWriter extends \yii\base\Object
             $this->sheet->setCellValueByColumnAndRow($column, $row, $value);
         } elseif ($config['type'] === 'date') {
             $timestamp = !is_int($value) ? strtotime($value) : $value;
-            $this->sheet->SetCellValueByColumnAndRow($column, $row, \PHPExcel_Shared_Date::PHPToExcel($timestamp));
+            $this->sheet->SetCellValueByColumnAndRow($column, $row, Date::PHPToExcel($timestamp));
             if (!isset($config['styles']['numberformat']['code'])) {
                 $config['styles']['numberformat']['code'] = $this->defaultDateFormat;
             }

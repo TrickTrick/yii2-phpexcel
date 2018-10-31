@@ -1,11 +1,16 @@
 <?php
 
-namespace alexgx\phpexcel;
+namespace tricktrick\phpexcel;
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 /**
  * Class PhpExcel
+ * @property Drawing $objDrawing
  */
-class PhpExcel extends \yii\base\Object
+class PhpExcel extends \yii\base\BaseObject
 {
     /**
      * @var string
@@ -14,41 +19,45 @@ class PhpExcel extends \yii\base\Object
 
     /**
      * Creates new workbook
-     * @return \PHPExcel
+     * @return Spreadsheet
      */
     public function create()
     {
-        return new \PHPExcel();
+        return new Spreadsheet();
     }
 
 	/**
 	 * Creates new Worksheet Drawing
-	 * @return \PHPExcel_Worksheet_Drawing
+	 * @return Drawing
 	 */
 	public function getObjDrawing() {
-		return new \PHPExcel_Worksheet_Drawing();
+		return new Drawing();
 	}
 
     /**
-     * @param string $filename name of the spreadsheet file
-     * @return \PHPExcel
+     * @param $filename
+     * @return Spreadsheet
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      */
     public function load($filename)
     {
-        return \PHPExcel_IOFactory::load($filename);
+        return IOFactory::load($filename);
     }
 
     /**
-     * @param \PHPExcel $object
-     * @param string $name attachment name
-     * @param string $format output format
+     * @param Spreadsheet $object
+     * @param $filename
+     * @param null $format
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \yii\base\ExitException
+     * @throws \yii\web\RangeNotSatisfiableHttpException
      */
-    public function responseFile(\PHPExcel $object, $filename, $format = null)
+    public function responseFile(Spreadsheet $object, $filename, $format = null)
     {
         if ($format === null) {
             $format = $this->resolveFormat($filename);
         }
-        $writer = \PHPExcel_IOFactory::createWriter($object, $format);
+        $writer = IOFactory::createWriter($object, $format);
         ob_start();
         $writer->save('php://output');
         $content = ob_get_clean();
@@ -58,7 +67,9 @@ class PhpExcel extends \yii\base\Object
 
     /**
      * @param $sheet
+     * @param $data
      * @param $config
+     * @return mixed
      */
     public function writeSheetData($sheet, $data, $config)
     {
@@ -69,11 +80,18 @@ class PhpExcel extends \yii\base\Object
         return $sheet;
     }
 
+    /**
+     *
+     */
     public function writeTemplateData(/* TODO */)
     {
         // TODO: implement
     }
 
+    /**
+     * @param $sheet
+     * @param $config
+     */
     public function readSheetData($sheet, $config)
     {
         // TODO: implement

@@ -1,8 +1,7 @@
 <?php
 
-namespace alexgx\phpexcel;
+namespace tricktrick\phpexcel;
 
-class ExcelTemplateWriter extends \yii\base\Object
+class ExcelTemplateWriter extends \yii\base\BaseObject
 {
-    // TODO: implement excel template writer
 }
