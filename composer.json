@@ -3,7 +3,7 @@
 	"description": "PhpExcel component extension for Yii2.",
 	"keywords": ["yii", "extension", "component", "PhpExcel"],
 	"type": "yii2-extension",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"license": "BSD-3-Clause",
 	"authors": [
 		{
@@ -14,7 +14,7 @@
 	],
 	"require": {
 		"php": ">=7.2",
-		"yiisoft/yii2": "2.0.15.*",
+		"yiisoft/yii2": "~2.0.15",
 		"phpoffice/phpspreadsheet": "1.6.0"
 	},
 	"autoload": {
